@@ -7,27 +7,31 @@ public class BoundaryCollisionDetector : MonoBehaviour
     [SerializeField] public OverlayManager overlayManager;
     [SerializeField] public GameObject m_playerObject;
     [SerializeField] public string m_houseName;
+    [SerializeField] public string requiredRotation;
+    [SerializeField] public Vector3 position;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    /// <summary>
+    /// Tell the overlay manager to show the interaction prompt with this household name
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == m_playerObject)
         {
-            Debug.Log("Collision!");
-            // Tell the player it's in the boundary.. 
             overlayManager.ShowInteractionDialog(m_houseName);
-
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Tell the overlay manager to hide the interaction prompt with this household name
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerExit(Collider other)
     {
-        
+        if(other.gameObject == m_playerObject)
+        {
+            overlayManager.HideInteractionDialog();
+        }
     }
+    
 }
