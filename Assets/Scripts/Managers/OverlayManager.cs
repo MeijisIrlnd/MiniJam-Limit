@@ -22,9 +22,15 @@ public class OverlayManager : MonoBehaviour
     [SerializeField] private GameObject interactionPromptPrefab;
     private GameObject m_interactionPrompt;
 
+    private Dictionary<string, int> m_houseMappings;
     private void Awake()
     {
        DontDestroyOnLoad(gameObject);
+        m_houseMappings = new Dictionary<string, int>
+        {
+            {"Johnson", 0 },
+            {"Bovril", 1 }
+        };
     }
 
     /// <summary>
@@ -33,7 +39,8 @@ public class OverlayManager : MonoBehaviour
     /// <param name="householdName"></param>
     public void ShowInteractionDialog(string householdName)
     {
-        Camera.main.gameObject.GetComponent<CameraConfigs>().SetElevationCamera(0);
+        Camera.main.gameObject.GetComponent<CameraConfigs>().SetElevationCamera(m_houseMappings[householdName]);
+        Cursor.visible = true;
         //if(m_interactionPrompt != null) Destroy(m_interactionPrompt);
         //string text = $"Press E to interact with the {householdName}s's homestead....";
         //m_interactionPrompt = Instantiate(interactionPromptPrefab, canvas.transform);
@@ -46,6 +53,7 @@ public class OverlayManager : MonoBehaviour
     /// </summary>
     public void HideInteractionDialog()
     {
+        Cursor.visible = false;
         Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
         //if(m_interactionPrompt != null) { Destroy(m_interactionPrompt); }
     }
