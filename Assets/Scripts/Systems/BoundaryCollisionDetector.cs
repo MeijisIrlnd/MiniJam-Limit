@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BoundaryCollisionDetector : MonoBehaviour
 {
+    [SerializeField] public OverlayManager overlayManager;
     [SerializeField] public GameObject m_playerObject;
     [SerializeField] public string m_houseName;
 
@@ -13,11 +14,13 @@ public class BoundaryCollisionDetector : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject == m_playerObject)
+        if (other.gameObject == m_playerObject)
         {
+            Debug.Log("Collision!");
             // Tell the player it's in the boundary.. 
+            overlayManager.ShowInteractionDialog(m_houseName);
 
         }
     }
