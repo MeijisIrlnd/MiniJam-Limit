@@ -7,6 +7,8 @@ public class BoundaryCollisionDetector : MonoBehaviour
     [SerializeField] public OverlayManager overlayManager;
     [SerializeField] public GameObject m_playerObject;
     [SerializeField] public string m_houseName;
+    [SerializeField] public string requiredRotation;
+    [SerializeField] public Vector3 position;
 
     /// <summary>
     /// Tell the overlay manager to show the interaction prompt with this household name
