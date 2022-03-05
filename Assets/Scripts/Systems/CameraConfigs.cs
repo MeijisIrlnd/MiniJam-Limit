@@ -21,7 +21,7 @@ public class CameraConfigs : MonoBehaviour
     private int m_currentHouseIndex = 0;
     private void Awake()
     {
-        m_overworldConfig = new CameraConfig(new Vector3(38.3f, 0, 0), new Vector3(0, 7.8f, -10.75f), false);
+        m_overworldConfig = new CameraConfig(new Vector3(38.3f, 0, 0), new Vector3(0, 7.8f, -24.15f), false);
         m_houseExteriorConfigs = new List<CameraConfig>();
         m_houseInteriorConfigs = new List<CameraConfig>();
         foreach(GameObject house in houses)
