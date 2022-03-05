@@ -293,6 +293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 82515894}
     - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1408441644}
+    - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
       propertyPath: m_playerObject
       value: 
       objectReference: {fileID: 464457097}
@@ -917,6 +921,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1222233022}
     - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1408441644}
+    - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
       propertyPath: m_playerObject
       value: 
       objectReference: {fileID: 464457097}
@@ -1036,6 +1044,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1310820927}
     - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1408441644}
+    - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
       propertyPath: m_playerObject
       value: 
       objectReference: {fileID: 464457097}
@@ -1098,7 +1110,7 @@ GameObject:
   - component: {fileID: 1408441645}
   - component: {fileID: 1408441644}
   m_Layer: 0
-  m_Name: OverlayManager
+  m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1673,6 +1685,10 @@ PrefabInstance:
       propertyPath: m_houseData
       value: 
       objectReference: {fileID: 4336504231387978110}
+    - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1408441644}
     - target: {fileID: 4941136088953677709, guid: 131aebd7dbfe33d4ca976c986b944172, type: 3}
       propertyPath: m_playerObject
       value: 

@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class OverlayManager : MonoBehaviour
+public enum TimeOfDay
 {
-    private static OverlayManager m_instance;
-    public static OverlayManager instance
+    Day, 
+    Night
+};
+
+public class SceneManager : MonoBehaviour
+{
+    private static SceneManager m_instance;
+    public static SceneManager instance
     {
         get
         {
             if (m_instance == null)
             {
-                m_instance = GameObject.FindObjectOfType<OverlayManager>();
+                m_instance = GameObject.FindObjectOfType<SceneManager>();
             }
             return m_instance;
         }
     }
+    public static TimeOfDay timeOfDay = TimeOfDay.Day;
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject dialogBoxPrefab;
     [SerializeField] private GameObject interactionPromptPrefab;
@@ -58,5 +65,28 @@ public class OverlayManager : MonoBehaviour
         Cursor.visible = false;
         Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
         //if(m_interactionPrompt != null) { Destroy(m_interactionPrompt); }
+    }
+
+    private void SwitchTimeOfDay()
+    {
+        timeOfDay = timeOfDay == TimeOfDay.Day ? TimeOfDay.Night : TimeOfDay.Day;
+        switch(timeOfDay)
+        {
+            case TimeOfDay.Day:
+                {
+                    break;
+                }
+            case TimeOfDay.Night:
+                {
+                    break;
+                }
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchTimeOfDay();
+        }
     }
 }
