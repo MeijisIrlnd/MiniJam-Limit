@@ -27,6 +27,12 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject dialogBoxPrefab;
     [SerializeField] private GameObject interactionPromptPrefab;
+
+    [SerializeField] private List<GameObject> streetlightLights;
+    [SerializeField] private GameObject nightLightState;
+    [SerializeField] private GameObject dayLightState;
+
+    [SerializeField] DialogHandler dialogHandler;
     private GameObject m_interactionPrompt;
 
     private Dictionary<string, int> m_houseMappings;
@@ -40,6 +46,11 @@ public class SceneManager : MonoBehaviour
             {"Bramwell", 2 },
             {"Cooper", 3 }
         };
+    }
+
+    public void ShowDialog(List<string> dialog)
+    {
+        dialogHandler.Show(dialog);
     }
 
     /// <summary>
@@ -75,10 +86,22 @@ public class SceneManager : MonoBehaviour
         {
             case TimeOfDay.Day:
                 {
+                    nightLightState.SetActive(false);
+                    dayLightState.SetActive(true);
+                    foreach(var obj in streetlightLights)
+                    {
+                        obj.SetActive(false);
+                    }
                     break;
                 }
             case TimeOfDay.Night:
                 {
+                    nightLightState.SetActive(true);
+                    dayLightState.SetActive(false);
+                    foreach (var obj in streetlightLights)
+                    {
+                        obj.SetActive(true);
+                    }
                     break;
                 }
         }

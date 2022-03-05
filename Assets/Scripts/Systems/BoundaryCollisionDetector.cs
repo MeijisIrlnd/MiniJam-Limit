@@ -8,6 +8,8 @@ public class BoundaryCollisionDetector : MonoBehaviour
     [SerializeField] public GameObject m_playerObject;
     [SerializeField] public HouseData m_houseData;
 
+    private bool m_awaitingSelect = false;
+    private bool m_showingExterior = false;
     /// <summary>
     /// Tell the overlay manager to show the interaction prompt with this household name
     /// </summary>
@@ -16,7 +18,8 @@ public class BoundaryCollisionDetector : MonoBehaviour
     {
         if (other.gameObject == m_playerObject)
         {
-            sceneManager.ShowInteractionDialog(m_houseData.houseName);
+            Debug.Log($"Press E to interact with {m_houseData.houseName}'s house..");
+            m_awaitingSelect = true;
         }
     }
 
@@ -26,10 +29,31 @@ public class BoundaryCollisionDetector : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
+        m_awaitingSelect = false;
         if(other.gameObject == m_playerObject)
         {
-            sceneManager.HideInteractionDialog();
+            //sceneManager.HideInteractionDialog();
         }
     }
-    
+
+    private void Update()
+    {
+        if(m_awaitingSelect && CameraConfigs.currentMode != CameraMode.Interior)
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                if (!m_showingExterior)
+                {
+                    sceneManager.ShowInteractionDialog(m_houseData.houseName);
+                    m_showingExterior = true;
+                }
+                else
+                {
+                    sceneManager.HideInteractionDialog();
+                    m_showingExterior = false;
+                }
+            }
+        }
+    }
+
 }

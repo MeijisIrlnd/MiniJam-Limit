@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum CameraMode
+public enum CameraMode
 {
     Overworld, 
     Exterior, 
@@ -17,7 +17,7 @@ public class CameraConfigs : MonoBehaviour
     private List<CameraConfig> m_houseInteriorConfigs;
     private readonly Vector3 m_exteriorCameraDelta = new Vector3(-7.13f, 0.1f, -0.06f);
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
-    private CameraMode m_currentMode;
+    public static CameraMode currentMode = CameraMode.Overworld;
     private int m_currentHouseIndex = 0;
     private void Awake()
     {
@@ -49,22 +49,31 @@ public class CameraConfigs : MonoBehaviour
         SetOverworldCamera();
     }
 
-    public void SetOverworldCamera() { m_currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
+    public void SetOverworldCamera() { currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
 
     public void SetElevationCamera(int houseNumber) { 
-        m_currentMode = CameraMode.Exterior;
+        currentMode = CameraMode.Exterior;
         m_currentHouseIndex = houseNumber;
         m_houseExteriorConfigs[houseNumber].Apply(); 
     }
 
-    public void SetInteriorCamera() { m_currentMode = CameraMode.Interior; m_houseInteriorConfigs[m_currentHouseIndex].Apply(); }
+    public void SetInteriorCamera() { 
+        currentMode = CameraMode.Interior;
+        m_houseInteriorConfigs[m_currentHouseIndex].Apply();
+        HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
+        if (currentHouseData.HasDialogForTime(SceneManager.timeOfDay))
+        {
+            SceneManager.instance.ShowDialog(currentHouseData.GetDialogForTime(SceneManager.timeOfDay));
+        }
+    
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (m_currentMode == CameraMode.Exterior)
+            if (currentMode == CameraMode.Exterior)
             {
                 RaycastHit[] hits;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -80,7 +89,7 @@ public class CameraConfigs : MonoBehaviour
                     }
                 }
             }
-            else if(m_currentMode == CameraMode.Interior)
+            else if(currentMode == CameraMode.Interior)
             {
                 SetElevationCamera(m_currentHouseIndex);
             }

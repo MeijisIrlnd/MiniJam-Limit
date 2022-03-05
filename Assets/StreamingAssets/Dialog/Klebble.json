@@ -1,0 +1,15 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": true, 
+        "dialog": [
+            "I pray we get a decent night's sleep tonight... It's the same time every gosh darn night.",
+            "Boris Bleeding Bramwell!", 
+            "Why does he have to use the high powered industrial grade band saw at 3am every night!", 
+            "Does he think our ears are filled?"
+        ]
+    },
+    "day": { 
+        "has_dialog": false
+    }
+}
