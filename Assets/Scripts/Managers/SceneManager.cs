@@ -48,6 +48,7 @@ public class SceneManager : MonoBehaviour
     /// <param name="householdName"></param>
     public void ShowInteractionDialog(string householdName)
     {
+        // Prompt for E press 
         Camera.main.gameObject.GetComponent<CameraConfigs>().SetElevationCamera(m_houseMappings[householdName]);
         Cursor.visible = true;
         //if(m_interactionPrompt != null) Destroy(m_interactionPrompt);
@@ -88,5 +89,6 @@ public class SceneManager : MonoBehaviour
         {
             SwitchTimeOfDay();
         }
+
     }
 }
