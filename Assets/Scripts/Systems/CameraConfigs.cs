@@ -65,6 +65,10 @@ public class CameraConfigs : MonoBehaviour
         {
             SceneManager.instance.ShowDialog(currentHouseData.GetDialogForTime(SceneManager.timeOfDay));
         }
+        foreach(var audioSource in currentHouseData.audioSources)
+        {
+            audioSource.Play();
+        }
     
     }
 
@@ -91,6 +95,12 @@ public class CameraConfigs : MonoBehaviour
             }
             else if(currentMode == CameraMode.Interior)
             {
+                HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
+                foreach(var audioSource in currentHouseData.audioSources)
+                {
+                    audioSource.Stop();
+                }
+
                 SetElevationCamera(m_currentHouseIndex);
             }
         }
