@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum CameraMode
+{
+    Overworld, 
+    Exterior, 
+    Interior
+};
 
 public class CameraConfigs : MonoBehaviour
 {
@@ -11,6 +17,8 @@ public class CameraConfigs : MonoBehaviour
     private List<CameraConfig> m_houseInteriorConfigs;
     private readonly Vector3 m_exteriorCameraDelta = new Vector3(-7.13f, 0.1f, -0.06f);
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
+    private CameraMode m_currentMode;
+    private int m_currentHouseIndex = 0;
     private void Awake()
     {
         m_overworldConfig = new CameraConfig(new Vector3(38.3f, 0, 0), new Vector3(0, 7.8f, -10.75f), false);
@@ -26,8 +34,9 @@ public class CameraConfigs : MonoBehaviour
             Vector3 extCameraPos, intCameraPos;
             if (sign == 1)
             {
+                // WHAT THE FUCK 
                 extCameraPos = new Vector3(pos.x + m_exteriorCameraDelta.x, pos.y + m_exteriorCameraDelta.y, pos.z + m_exteriorCameraDelta.z);
-                intCameraPos = new Vector3(pos.x + m_interiorCameraDelta.x, pos.y + m_interiorCameraDelta.y, pos.z + m_interiorCameraDelta.z);
+                intCameraPos = new Vector3(pos.x + m_interiorCameraDelta.x, pos.y - m_interiorCameraDelta.y, pos.z + m_interiorCameraDelta.z);
             }
             else
             {
@@ -40,13 +49,41 @@ public class CameraConfigs : MonoBehaviour
         SetOverworldCamera();
     }
 
-    public void SetOverworldCamera() { m_overworldConfig.Apply(); }
+    public void SetOverworldCamera() { m_currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
 
-    public void SetElevationCamera(int houseNumber) { m_houseExteriorConfigs[houseNumber].Apply(); }
+    public void SetElevationCamera(int houseNumber) { 
+        m_currentMode = CameraMode.Exterior;
+        m_currentHouseIndex = houseNumber;
+        m_houseExteriorConfigs[houseNumber].Apply(); 
+    }
+
+    public void SetInteriorCamera() { m_currentMode = CameraMode.Interior; m_houseInteriorConfigs[m_currentHouseIndex].Apply(); }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (m_currentMode == CameraMode.Exterior)
+            {
+                RaycastHit[] hits;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                hits = Physics.RaycastAll(ray, 1000.0f);
+                Debug.Log($"Num Hits: {hits.Length}");
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                    if (clickable != null)
+                    {
+                        SetInteriorCamera();
+                        Debug.Log("Component found!");
+                    }
+                }
+            }
+            else if(m_currentMode == CameraMode.Interior)
+            {
+                SetElevationCamera(m_currentHouseIndex);
+            }
+        }
     }
 }

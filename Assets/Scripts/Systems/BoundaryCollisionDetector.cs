@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoundaryCollisionDetector : MonoBehaviour
 {
-    [SerializeField] public OverlayManager overlayManager;
+    [SerializeField] public SceneManager sceneManager;
     [SerializeField] public GameObject m_playerObject;
     [SerializeField] public HouseData m_houseData;
 
@@ -16,7 +16,7 @@ public class BoundaryCollisionDetector : MonoBehaviour
     {
         if (other.gameObject == m_playerObject)
         {
-            overlayManager.ShowInteractionDialog(m_houseData.houseName);
+            sceneManager.ShowInteractionDialog(m_houseData.houseName);
         }
     }
 
@@ -28,7 +28,7 @@ public class BoundaryCollisionDetector : MonoBehaviour
     {
         if(other.gameObject == m_playerObject)
         {
-            overlayManager.HideInteractionDialog();
+            sceneManager.HideInteractionDialog();
         }
     }
     
