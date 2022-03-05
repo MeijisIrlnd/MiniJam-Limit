@@ -28,8 +28,10 @@ public class OverlayManager : MonoBehaviour
        DontDestroyOnLoad(gameObject);
         m_houseMappings = new Dictionary<string, int>
         {
-            {"Johnson", 0 },
-            {"Bovril", 1 }
+            {"Berwyn", 0 },
+            {"Klebble", 1 },
+            {"Bramwell", 2 },
+            {"Cooper", 3 }
         };
     }
 
