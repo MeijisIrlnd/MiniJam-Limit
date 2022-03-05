@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class DialogHandler : MonoBehaviour
 {
     [SerializeField] float fadeDuration;
+    [SerializeField] float timePerCharacter;
     [SerializeField] Image background;
     [SerializeField] TextMeshProUGUI textBox;
 
@@ -41,7 +42,7 @@ public class DialogHandler : MonoBehaviour
             foreach(char c in line)
             {
                 textBox.text = $"{textBox.text}{c}";
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(timePerCharacter);
             }
             yield return new WaitForSeconds(0.5f);
         }
