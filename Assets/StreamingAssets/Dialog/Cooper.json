@@ -1,0 +1,22 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": true, 
+        "dialog": [
+            "Ya beb, it's totally far out.. I love that OPM record.",
+            "...",
+            "Ya beb, it's good. the kids in bed beb, and I just snagged the papa's bourbon",
+            "...",
+            "Oh ya Benby, it was totally freaked up. I've never seen so many chainsaws...", 
+            "And beb... the guys not even a tree surgeon",
+            "...", 
+            "ya guys payin me 30 bucks an hour just to keep an eye on those scrawny little twiglets.",
+            "ha ha... Sucker..",
+            "...",
+            "When the revolution comes he'll be first against the wall"
+        ]
+    },
+    "day": { 
+        "has_dialog": false
+    }
+}
