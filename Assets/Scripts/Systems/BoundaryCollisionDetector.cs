@@ -10,6 +10,8 @@ public class BoundaryCollisionDetector : MonoBehaviour
 
     private bool m_awaitingSelect = false;
     private bool m_showingExterior = false;
+
+
     /// <summary>
     /// Tell the overlay manager to show the interaction prompt with this household name
     /// </summary>

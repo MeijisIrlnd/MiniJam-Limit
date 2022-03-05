@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-8937924071220703196
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: f3f398098926a3646ba0931890c1a82d
+  m_EffectName: Lowpass
+  m_MixLevel: 2cb3be2624f94904d89e4d929f20044f
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 4765a781110bcac49be1944b49fcf678
+  - m_ParameterName: Resonance
+    m_GUID: db438908de6abe7428d801780e8e16b8
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &-4907403190363611599
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 8a9c89d7e75329d40810c4570988334b
+  m_EffectName: Attenuation
+  m_MixLevel: f7ea41265a07a594e8345871572d68ae
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &-4693382758721566996
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HouseSounds
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: f241c5ed71c5cea4eafa4a5c86341c9f
+  m_Children: []
+  m_Volume: c0a3299e993ce9447ab5244de348ad72
+  m_Pitch: f2876f2557864d2439799a3dea034ac3
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -4907403190363611599}
+  - {fileID: -8937924071220703196}
+  - {fileID: -2884412521530684656}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-2884412521530684656
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 95dcdf4b124ef8e4cb6cbf46ac00529f
+  m_EffectName: Highpass
+  m_MixLevel: 4fe7a4367ceeabe49b8aeacb7de018db
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 7ba1e42adaf01e9469adb1b27454f7f2
+  - m_ParameterName: Resonance
+    m_GUID: d8dfd73f51ca23742859c77998f2de92
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!241 &24100000
+AudioMixerController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mixer
+  m_OutputGroup: {fileID: 0}
+  m_MasterGroup: {fileID: 24300002}
+  m_Snapshots:
+  - {fileID: 24500006}
+  m_StartSnapshot: {fileID: 24500006}
+  m_SuspendThreshold: -80
+  m_EnableSuspend: 1
+  m_UpdateMode: 0
+  m_ExposedParameters: []
+  m_AudioMixerGroupViews:
+  - guids:
+    - 279cc35bb4c923b4c88aa21567359a68
+    - f241c5ed71c5cea4eafa4a5c86341c9f
+    name: View
+  m_CurrentViewIndex: 0
+  m_TargetSnapshot: {fileID: 24500006}
+--- !u!243 &24300002
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Master
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 279cc35bb4c923b4c88aa21567359a68
+  m_Children:
+  - {fileID: -4693382758721566996}
+  m_Volume: 4cb6c497a4eac3b4496bf6f443392b1d
+  m_Pitch: 3f4d9c6c3808aad4581f532e407e9b31
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 24400004}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &24400004
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 4742c0bb7d2eeab4facc23dc1ae6075d
+  m_EffectName: Attenuation
+  m_MixLevel: 200c1c97ab2fc404c8665c4873450ea2
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!245 &24500006
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Snapshot
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: be55c6aeb12eba448925e32b4806cf1e
+  m_FloatValues:
+    4765a781110bcac49be1944b49fcf678: 13332
+    db438908de6abe7428d801780e8e16b8: 1
+    7ba1e42adaf01e9469adb1b27454f7f2: 1071
+  m_TransitionOverrides: {}

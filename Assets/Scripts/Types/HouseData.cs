@@ -9,6 +9,7 @@ public class HouseData : MonoBehaviour
     [SerializeField] public string houseName;
     [SerializeField] public Vector3 rotation;
     [SerializeField] public string dialogFile;
+    [SerializeField] public List<AudioSource> audioSources;
 
     private JsonTypes.HouseholdJson m_householdJson;
     private void Awake()

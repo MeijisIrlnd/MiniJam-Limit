@@ -28,6 +28,8 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private GameObject dialogBoxPrefab;
     [SerializeField] private GameObject interactionPromptPrefab;
 
+    [SerializeField] AudioSource switchSource;
+    [SerializeField] private float streetlightChangeTime;
     [SerializeField] private List<GameObject> streetlightLights;
     [SerializeField] private GameObject nightLightState;
     [SerializeField] private GameObject dayLightState;
@@ -46,6 +48,7 @@ public class SceneManager : MonoBehaviour
             {"Bramwell", 2 },
             {"Cooper", 3 }
         };
+        
     }
 
     public void ShowDialog(List<string> dialog)
@@ -82,30 +85,39 @@ public class SceneManager : MonoBehaviour
     private void SwitchTimeOfDay()
     {
         timeOfDay = timeOfDay == TimeOfDay.Day ? TimeOfDay.Night : TimeOfDay.Day;
+        switchSource.Play();
         switch(timeOfDay)
         {
             case TimeOfDay.Day:
                 {
                     nightLightState.SetActive(false);
                     dayLightState.SetActive(true);
-                    foreach(var obj in streetlightLights)
-                    {
-                        obj.SetActive(false);
-                    }
+                    StartCoroutine(SwitchStreetLights());
                     break;
                 }
             case TimeOfDay.Night:
                 {
                     nightLightState.SetActive(true);
                     dayLightState.SetActive(false);
-                    foreach (var obj in streetlightLights)
-                    {
-                        obj.SetActive(true);
-                    }
+                    StartCoroutine(SwitchStreetLights());
                     break;
                 }
         }
     }
+
+    private IEnumerator SwitchStreetLights()
+    {
+        bool on = timeOfDay == TimeOfDay.Night;
+        float timePerLight = streetlightChangeTime / (streetlightLights.Count / 2.0f);
+        for (var i = 0; i < streetlightLights.Count; i += 2)
+        {
+            streetlightLights[i].SetActive(on);
+            streetlightLights[i + 1].SetActive(on);
+            yield return new WaitForSeconds(timePerLight);
+        }
+        yield return null;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
