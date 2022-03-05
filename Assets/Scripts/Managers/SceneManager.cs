@@ -29,6 +29,7 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private GameObject interactionPromptPrefab;
 
     [SerializeField] AudioSource switchSource;
+    [SerializeField] private List<Light> carLights;
     [SerializeField] private float streetlightChangeTime;
     [SerializeField] private List<GameObject> streetlightLights;
     [SerializeField] private GameObject nightLightState;
@@ -115,6 +116,7 @@ public class SceneManager : MonoBehaviour
             streetlightLights[i + 1].SetActive(on);
             yield return new WaitForSeconds(timePerLight);
         }
+        foreach(var l in carLights) {  l.gameObject.SetActive(on); }
         yield return null;
     }
 
