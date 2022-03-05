@@ -155,11 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a9629d2c7ae444383045035bf6bd70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overlayManager: {fileID: 0}
+  sceneManager: {fileID: 0}
   m_playerObject: {fileID: 0}
-  m_houseName: Johnson
-  requiredRotation: 
-  position: {x: 0, y: 0, z: 0}
+  m_houseData: {fileID: 0}
 --- !u!1 &4336504230973312741
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +351,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4336504231713198921}
-  m_Mesh: {fileID: -5495902117074765545, guid: 49c413717035f403e928492129e5c461, type: 3}
+  m_Mesh: {fileID: -5495902117074765545, guid: e93d95fe02702406da37c447652d2af0, type: 3}
 --- !u!23 &4336504231713198925
 MeshRenderer:
   m_ObjectHideFlags: 0
