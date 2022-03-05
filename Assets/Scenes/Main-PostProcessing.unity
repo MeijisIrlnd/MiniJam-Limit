@@ -12866,6 +12866,7 @@ GameObject:
   - component: {fileID: 805921329}
   - component: {fileID: 805921333}
   - component: {fileID: 805921334}
+  - component: {fileID: 805921335}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -12988,7 +12989,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 805921332}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483647
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
@@ -13033,6 +13034,24 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &805921335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805921328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c520d478f3d2445429bd7ac9c92b03a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessLayer: {fileID: 805921334}
+  lightMeter: 0
+  histogram: 0
+  waveform: 0
+  vectorscope: 0
+  debugOverlay: 0
 --- !u!1001 &816598526
 PrefabInstance:
   m_ObjectHideFlags: 0
