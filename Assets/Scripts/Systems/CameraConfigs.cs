@@ -57,7 +57,16 @@ public class CameraConfigs : MonoBehaviour
         m_houseExteriorConfigs[houseNumber].Apply(); 
     }
 
-    public void SetInteriorCamera() { currentMode = CameraMode.Interior; m_houseInteriorConfigs[m_currentHouseIndex].Apply(); }
+    public void SetInteriorCamera() { 
+        currentMode = CameraMode.Interior;
+        m_houseInteriorConfigs[m_currentHouseIndex].Apply();
+        HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
+        if (currentHouseData.HasDialogForTime(SceneManager.timeOfDay))
+        {
+            SceneManager.instance.ShowDialog(currentHouseData.GetDialogForTime(SceneManager.timeOfDay));
+        }
+    
+    }
 
     // Update is called once per frame
     void Update()
