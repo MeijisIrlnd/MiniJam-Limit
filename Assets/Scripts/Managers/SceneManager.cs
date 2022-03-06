@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,21 +25,27 @@ public class SceneManager : MonoBehaviour
         }
     }
     public static TimeOfDay timeOfDay = TimeOfDay.Day;
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private GameObject dialogBoxPrefab;
-    [SerializeField] private GameObject interactionPromptPrefab;
+    public HouseData focussedHouse = null;
 
+    [SerializeField] AudioSource switchSource;
+    [SerializeField] private List<Light> carLights;
+    [SerializeField] private float streetlightChangeTime;
     [SerializeField] private List<GameObject> streetlightLights;
     [SerializeField] private GameObject nightLightState;
     [SerializeField] private GameObject dayLightState;
 
     [SerializeField] DialogHandler dialogHandler;
-    private GameObject m_interactionPrompt;
-
     private Dictionary<string, int> m_houseMappings;
+
+    private bool m_currentlySwitchingTimeOfDay = false;
+    public static event Action<TimeOfDay> OnTimeOfDaySwitched;
+    public static event Action<HouseData> OnHouseCameraChanged;
+    public static event Action OnClick;
+
     private void Awake()
     {
-       DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
+
         m_houseMappings = new Dictionary<string, int>
         {
             {"Berwyn", 0 },
@@ -53,65 +60,94 @@ public class SceneManager : MonoBehaviour
         dialogHandler.Show(dialog);
     }
 
+    public bool GetIsDialogShowing() { return dialogHandler.IsShowing(); }
+
+    public void CancelDialog() { dialogHandler.Cancel(); }
+
     /// <summary>
     /// Prompt the user to interact with something
     /// </summary>
     /// <param name="householdName"></param>
-    public void ShowInteractionDialog(string householdName)
+    public void ShowHouseExterior(string householdName)
     {
-        // Prompt for E press 
         Camera.main.gameObject.GetComponent<CameraConfigs>().SetElevationCamera(m_houseMappings[householdName]);
         Cursor.visible = true;
-        //if(m_interactionPrompt != null) Destroy(m_interactionPrompt);
-        //string text = $"Press E to interact with the {householdName}s's homestead....";
-        //m_interactionPrompt = Instantiate(interactionPromptPrefab, canvas.transform);
-        //m_interactionPrompt.GetComponentInChildren<TextMeshProUGUI>().text = text;
-
     }
 
     /// <summary>
     /// Remove any existing interaction dialog
     /// </summary>
-    public void HideInteractionDialog()
+    public void ShowOverworld()
     {
         Cursor.visible = false;
         Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
-        //if(m_interactionPrompt != null) { Destroy(m_interactionPrompt); }
     }
 
     private void SwitchTimeOfDay()
     {
         timeOfDay = timeOfDay == TimeOfDay.Day ? TimeOfDay.Night : TimeOfDay.Day;
-        switch(timeOfDay)
+        switchSource.Play();
+        m_currentlySwitchingTimeOfDay = true;
+        OnTimeOfDaySwitched?.Invoke(timeOfDay);
+        switch (timeOfDay)
         {
             case TimeOfDay.Day:
                 {
                     nightLightState.SetActive(false);
                     dayLightState.SetActive(true);
-                    foreach(var obj in streetlightLights)
-                    {
-                        obj.SetActive(false);
-                    }
+                    StartCoroutine(SwitchStreetLights());
                     break;
                 }
             case TimeOfDay.Night:
                 {
                     nightLightState.SetActive(true);
                     dayLightState.SetActive(false);
-                    foreach (var obj in streetlightLights)
-                    {
-                        obj.SetActive(true);
-                    }
+                    StartCoroutine(SwitchStreetLights());
                     break;
                 }
         }
     }
+
+    private IEnumerator SwitchStreetLights()
+    {
+        bool on = timeOfDay == TimeOfDay.Night;
+        float timePerLight = streetlightChangeTime / (streetlightLights.Count / 2.0f);
+        for (var i = 0; i < streetlightLights.Count; i += 2)
+        {
+            streetlightLights[i].SetActive(on);
+            streetlightLights[i + 1].SetActive(on);
+            yield return new WaitForSeconds(timePerLight);
+        }
+        foreach(var l in carLights) {  l.gameObject.SetActive(on); }
+        m_currentlySwitchingTimeOfDay = false;
+        yield return null;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !m_currentlySwitchingTimeOfDay)
         {
             SwitchTimeOfDay();
         }
+        if(focussedHouse != null && CameraConfigs.currentMode != CameraMode.Interior)
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                if(CameraConfigs.currentMode == CameraMode.Exterior)
+                {
+                    ShowOverworld();
+                }
+                else
+                {
+                    ShowHouseExterior(focussedHouse.houseName);
+                }
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnClick?.Invoke();
+        }
+
 
     }
 }

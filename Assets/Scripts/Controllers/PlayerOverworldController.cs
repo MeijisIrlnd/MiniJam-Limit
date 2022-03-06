@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerOverworldController : MonoBehaviour
 {
+    [SerializeField] private float acceleration;
     [SerializeField] private float movementSpeed;
+    [SerializeField] private AudioSource carAudioSource;
+    [SerializeField] private Rigidbody rb;
+    private bool m_isCarMoving = false;
+
 
     private Vector3 m_position;
     // Start is called before the first frame update
@@ -20,7 +25,22 @@ public class PlayerOverworldController : MonoBehaviour
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
-            gameObject.transform.position = new Vector3(transform.position.x + (h * movementSpeed), transform.position.y, transform.position.z + (v * movementSpeed));
+            if(h == 0 && v == 0) { 
+                m_isCarMoving = false;
+                if(carAudioSource.isPlaying) { carAudioSource.Stop(); }
+            }
+            else { 
+                m_isCarMoving = true;
+                if(!carAudioSource.isPlaying) {  carAudioSource.Play(); }
+            }
+            gameObject.transform.Rotate(new Vector3(0, h * 2, 0));
+            var lookVector = gameObject.transform.forward;
+            transform.position += v * lookVector * Time.deltaTime * movementSpeed;
+        }
+        else
+        {
+            m_isCarMoving = false;
+            if(carAudioSource.isPlaying) { carAudioSource.Stop(); }
         }
     }
 
