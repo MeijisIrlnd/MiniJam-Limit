@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,10 @@ public enum CameraMode
 public class CameraConfigs : MonoBehaviour
 {
     [SerializeField] List<GameObject> houses;
+    [SerializeField] DialogHandler dialogHandler;
+    public static event Action HideUI;
+    public static event Action ShowUI;
+
     private CameraConfig m_overworldConfig;
     private List<CameraConfig> m_houseExteriorConfigs;
     private List<CameraConfig> m_houseInteriorConfigs;
@@ -70,13 +75,15 @@ public class CameraConfigs : MonoBehaviour
 
     public void SetOverworldCamera() { currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
 
-    public void SetElevationCamera(int houseNumber) { 
+    public void SetElevationCamera(int houseNumber) {
+        ShowUI?.Invoke();
         currentMode = CameraMode.Exterior;
         m_currentHouseIndex = houseNumber;
         m_houseExteriorConfigs[houseNumber].Apply(); 
     }
 
-    public void SetInteriorCamera() { 
+    public void SetInteriorCamera() {
+        HideUI?.Invoke();
         currentMode = CameraMode.Interior;
         m_houseInteriorConfigs[m_currentHouseIndex].Apply();
         HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
@@ -102,12 +109,15 @@ public class CameraConfigs : MonoBehaviour
 
     public void SetPhoneboxCamera()
     {
+        Cursor.visible = true;
+        ShowUI?.Invoke();
         m_phoneboxCameraConfig.Apply();
         currentMode = CameraMode.Phonebox;
     }
 
     public void SetYellowPagesCamera()
     {
+        HideUI?.Invoke();
         m_yellowPagesCameraConfig.Apply();
         currentMode = CameraMode.YellowPages;
 
@@ -150,27 +160,23 @@ public class CameraConfigs : MonoBehaviour
         }
         else if(currentMode == CameraMode.YellowPages)
         {
-            RaycastHit[] hits;
+            //RaycastHit[] hits;
+            RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            hits = Physics.RaycastAll(ray, 1000.0f);
-            Debug.Log($"Num Hits: {hits.Length}");
+            bool didHit = Physics.Raycast(ray, out hit);
             // if hits.Length == 0, return...
-            if (hits.Length == 0)
+            if (!didHit)
             {
                 SetPhoneboxCamera();
+                dialogHandler.Cancel();
             }
             else
             {
-
-                for (int i = 0; i < hits.Length; i++)
+                var entry = hit.transform.GetComponentInChildren<YellowPagesEntry>();
+                if (entry != null)
                 {
-                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
-                    if (clickable != null)
-                    {
-                        //SetInteriorCamera();
-                        Debug.Log("Phonebook found!");
-                        SetYellowPagesCamera();
-                    }
+                    Debug.Log("Phonebook found!");
+                    dialogHandler.Show(entry.linkedHouseData.GetPhoneDialog());
                 }
             }
         }

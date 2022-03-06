@@ -1,0 +1,19 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": false, 
+        "dialog": [
+        ]
+    },
+    "day": { 
+        "has_dialog": false, 
+        "dialog": [ 
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "TODO: FINAL DIALOG"
+        ]
+    }
+}

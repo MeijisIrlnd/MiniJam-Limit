@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NameDisplayController : MonoBehaviour
 {
+    [SerializeField] GameObject textContainer;
     [SerializeField] TextMeshProUGUI textComponent;
     [SerializeField] TextMeshProUGUI interactionText;
     private void Awake()
@@ -14,6 +15,8 @@ public class NameDisplayController : MonoBehaviour
         SceneManager.OnHouseCameraChanged += OnHouseCameraChanged;
         PhoneboxBoundaryDetector.OnPhoneboxTriggerEnter += OnPhoneboxTriggerEnter;
         PhoneboxBoundaryDetector.OnPhoneboxTriggerExit += OnPhoneboxTriggerExit;
+        CameraConfigs.HideUI += HideUI;
+        CameraConfigs.ShowUI += ShowUI;
     }
     private void OnDestroy()
     {
@@ -22,8 +25,19 @@ public class NameDisplayController : MonoBehaviour
         SceneManager.OnHouseCameraChanged -= OnHouseCameraChanged;
         PhoneboxBoundaryDetector.OnPhoneboxTriggerEnter -= OnPhoneboxTriggerEnter;
         PhoneboxBoundaryDetector.OnPhoneboxTriggerExit -= OnPhoneboxTriggerExit;
+        CameraConfigs.HideUI -= HideUI;
+        CameraConfigs.ShowUI -= ShowUI;
     }
 
+    private void HideUI()
+    {
+        textContainer.SetActive(false);
+    }
+
+    private void ShowUI()
+    {
+        textContainer.SetActive(true);
+    }
     private void OnHouseTriggerEnter(HouseData houseData)
     {
         textComponent.gameObject.SetActive(true);

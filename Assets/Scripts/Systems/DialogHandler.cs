@@ -29,41 +29,46 @@ public class DialogHandler : MonoBehaviour
 
     private IEnumerator ShowDialogAsync(List<string> dialog)
     {
-        m_isShowing = true;
-        var startColour = background.color;
-        var endColour = new Color(background.color.r, background.color.g, background.color.b, 0.25f);
-        float timer = 0;
-        while (timer < fadeDuration)
+        if (!m_isShowing)
         {
-            timer += Time.deltaTime;
-            float t = timer / fadeDuration;
-            background.color = Color.Lerp(startColour, endColour, t);
-            yield return new WaitForEndOfFrame();
-        }
-
-        foreach (string line in dialog)
-        {
-            Clear();
-            foreach(char c in line)
+            m_isShowing = true;
+            var startColour = background.color;
+            var endColour = new Color(background.color.r, background.color.g, background.color.b, 0.25f);
+            float timer = 0;
+            while (timer < fadeDuration)
             {
-                textBox.text = $"{textBox.text}{c}";
-                if (m_shouldCancel) break;
-                yield return new WaitForSeconds(timePerCharacter);
+                timer += Time.deltaTime;
+                float t = timer / fadeDuration;
+                background.color = Color.Lerp(startColour, endColour, t);
+                yield return new WaitForEndOfFrame();
             }
-            if (m_shouldCancel) break;
-            yield return new WaitForSeconds(0.5f);
+
+            foreach (string line in dialog)
+            {
+                Clear();
+                foreach (char c in line)
+                {
+                    textBox.text = $"{textBox.text}{c}";
+                    if (m_shouldCancel) break;
+                    yield return new WaitForSeconds(timePerCharacter);
+                }
+                if (m_shouldCancel) break;
+                yield return new WaitForSeconds(0.5f);
+            }
+            m_shouldCancel = false;
+            Clear();
+            timer = 0;
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeDuration;
+                background.color = Color.Lerp(endColour, startColour, t);
+                yield return new WaitForEndOfFrame();
+            }
+            m_isShowing = false;
+            yield return null;
         }
-        m_shouldCancel = false;
-        Clear();
-        timer = 0;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / fadeDuration;
-            background.color = Color.Lerp(endColour, startColour, t);
-            yield return new WaitForEndOfFrame();
-        }
-        m_isShowing = false;
-        yield return null;
+        else { yield return null; }
     }
+
 }
