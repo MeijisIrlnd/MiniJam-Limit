@@ -33,9 +33,14 @@ public class PlayerOverworldController : MonoBehaviour
                 m_isCarMoving = true;
                 if(!carAudioSource.isPlaying) {  carAudioSource.Play(); }
             }
-            gameObject.transform.Rotate(new Vector3(0, h, 0));
+            gameObject.transform.Rotate(new Vector3(0, h * 2, 0));
             var lookVector = gameObject.transform.forward;
             transform.position += v * lookVector * Time.deltaTime * movementSpeed;
+        }
+        else
+        {
+            m_isCarMoving = false;
+            if(carAudioSource.isPlaying) { carAudioSource.Stop(); }
         }
     }
 

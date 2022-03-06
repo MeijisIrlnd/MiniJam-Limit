@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,9 +25,7 @@ public class SceneManager : MonoBehaviour
         }
     }
     public static TimeOfDay timeOfDay = TimeOfDay.Day;
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private GameObject dialogBoxPrefab;
-    [SerializeField] private GameObject interactionPromptPrefab;
+    public HouseData focussedHouse = null;
 
     [SerializeField] AudioSource switchSource;
     [SerializeField] private List<Light> carLights;
@@ -36,12 +35,17 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private GameObject dayLightState;
 
     [SerializeField] DialogHandler dialogHandler;
-    private GameObject m_interactionPrompt;
-
     private Dictionary<string, int> m_houseMappings;
+
+    private bool m_currentlySwitchingTimeOfDay = false;
+    public static event Action<TimeOfDay> OnTimeOfDaySwitched;
+    public static event Action<HouseData> OnHouseCameraChanged;
+    public static event Action OnClick;
+
     private void Awake()
     {
-       DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
+
         m_houseMappings = new Dictionary<string, int>
         {
             {"Berwyn", 0 },
@@ -49,7 +53,6 @@ public class SceneManager : MonoBehaviour
             {"Bramwell", 2 },
             {"Cooper", 3 }
         };
-        
     }
 
     public void ShowDialog(List<string> dialog)
@@ -57,37 +60,36 @@ public class SceneManager : MonoBehaviour
         dialogHandler.Show(dialog);
     }
 
+    public bool GetIsDialogShowing() { return dialogHandler.IsShowing(); }
+
+    public void CancelDialog() { dialogHandler.Cancel(); }
+
     /// <summary>
     /// Prompt the user to interact with something
     /// </summary>
     /// <param name="householdName"></param>
-    public void ShowInteractionDialog(string householdName)
+    public void ShowHouseExterior(string householdName)
     {
-        // Prompt for E press 
         Camera.main.gameObject.GetComponent<CameraConfigs>().SetElevationCamera(m_houseMappings[householdName]);
         Cursor.visible = true;
-        //if(m_interactionPrompt != null) Destroy(m_interactionPrompt);
-        //string text = $"Press E to interact with the {householdName}s's homestead....";
-        //m_interactionPrompt = Instantiate(interactionPromptPrefab, canvas.transform);
-        //m_interactionPrompt.GetComponentInChildren<TextMeshProUGUI>().text = text;
-
     }
 
     /// <summary>
     /// Remove any existing interaction dialog
     /// </summary>
-    public void HideInteractionDialog()
+    public void ShowOverworld()
     {
         Cursor.visible = false;
         Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
-        //if(m_interactionPrompt != null) { Destroy(m_interactionPrompt); }
     }
 
     private void SwitchTimeOfDay()
     {
         timeOfDay = timeOfDay == TimeOfDay.Day ? TimeOfDay.Night : TimeOfDay.Day;
         switchSource.Play();
-        switch(timeOfDay)
+        m_currentlySwitchingTimeOfDay = true;
+        OnTimeOfDaySwitched?.Invoke(timeOfDay);
+        switch (timeOfDay)
         {
             case TimeOfDay.Day:
                 {
@@ -117,15 +119,35 @@ public class SceneManager : MonoBehaviour
             yield return new WaitForSeconds(timePerLight);
         }
         foreach(var l in carLights) {  l.gameObject.SetActive(on); }
+        m_currentlySwitchingTimeOfDay = false;
         yield return null;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !m_currentlySwitchingTimeOfDay)
         {
             SwitchTimeOfDay();
         }
+        if(focussedHouse != null && CameraConfigs.currentMode != CameraMode.Interior)
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                if(CameraConfigs.currentMode == CameraMode.Exterior)
+                {
+                    ShowOverworld();
+                }
+                else
+                {
+                    ShowHouseExterior(focussedHouse.houseName);
+                }
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnClick?.Invoke();
+        }
+
 
     }
 }

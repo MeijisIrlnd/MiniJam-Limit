@@ -19,8 +19,12 @@ public class CameraConfigs : MonoBehaviour
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
     public static CameraMode currentMode = CameraMode.Overworld;
     private int m_currentHouseIndex = 0;
+
     private void Awake()
     {
+        SceneManager.OnTimeOfDaySwitched += TimeOfDayChangedCallback;
+        SceneManager.OnClick += ClickCallback;
+
         m_overworldConfig = new CameraConfig(new Vector3(38.3f, 0, 0), new Vector3(0, 7.8f, -24.15f), false);
         m_houseExteriorConfigs = new List<CameraConfig>();
         m_houseInteriorConfigs = new List<CameraConfig>();
@@ -47,6 +51,17 @@ public class CameraConfigs : MonoBehaviour
             m_houseInteriorConfigs.Add(new CameraConfig(houseData.rotation, intCameraPos, false));
         }
         SetOverworldCamera();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.OnTimeOfDaySwitched -= TimeOfDayChangedCallback;
+        SceneManager.OnClick -= ClickCallback;
+    }
+
+    void TimeOfDayChangedCallback(TimeOfDay timeOfDay)
+    {
+
     }
 
     public void SetOverworldCamera() { currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
@@ -79,52 +94,31 @@ public class CameraConfigs : MonoBehaviour
                 audioSource.Play();
             }
         }
-
-    
     }
 
-    // Update is called once per frame
-    void Update()
+    void ClickCallback()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (currentMode == CameraMode.Exterior)
         {
-            if (currentMode == CameraMode.Exterior)
+            RaycastHit[] hits;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 1000.0f);
+            Debug.Log($"Num Hits: {hits.Length}");
+            for (int i = 0; i < hits.Length; i++)
             {
-                RaycastHit[] hits;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                hits = Physics.RaycastAll(ray, 1000.0f);
-                Debug.Log($"Num Hits: {hits.Length}");
-                for (int i = 0; i < hits.Length; i++)
+                var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                if (clickable != null)
                 {
-                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
-                    if (clickable != null)
-                    {
-                        SetInteriorCamera();
-                        Debug.Log("Component found!");
-                    }
+                    SetInteriorCamera();
+                    Debug.Log("Component found!");
                 }
-            }
-            else if(currentMode == CameraMode.Interior)
-            {
-                HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
-                if(SceneManager.timeOfDay == TimeOfDay.Day)
-                {
-                    foreach (var audioSource in currentHouseData.audioSourcesDay)
-                    {
-                        audioSource.Stop();
-                    }
-                }
-                else
-                {
-                    foreach (var audioSource in currentHouseData.audioSourcesNight)
-                    {
-                        audioSource.Stop();
-                    }
-                }
-
-
-                SetElevationCamera(m_currentHouseIndex);
             }
         }
+        else if (currentMode == CameraMode.Interior)
+        {
+            if (SceneManager.instance.GetIsDialogShowing()) { SceneManager.instance.CancelDialog(); }
+            SetElevationCamera(m_currentHouseIndex);
+        }
     }
+    
 }
