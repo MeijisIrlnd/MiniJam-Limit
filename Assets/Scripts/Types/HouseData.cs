@@ -43,10 +43,14 @@ public class HouseData : MonoBehaviour
         }
     }
 
-    void TimeOfDayChangedCallback(TimeOfDay timeOfDay)
+    public void StopAudio()
     {
         foreach (var audioSource in audioSourcesDay) { if (audioSource.isPlaying) { audioSource.Stop(); } }
         foreach (var audioSource in audioSourcesNight) { if (audioSource.isPlaying) { audioSource.Stop(); } }
+    }
+    void TimeOfDayChangedCallback(TimeOfDay timeOfDay)
+    {
+        StopAudio();
     }
 
 }

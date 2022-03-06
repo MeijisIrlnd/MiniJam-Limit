@@ -118,6 +118,7 @@ public class CameraConfigs : MonoBehaviour
         {
             if (SceneManager.instance.GetIsDialogShowing()) { SceneManager.instance.CancelDialog(); }
             SetElevationCamera(m_currentHouseIndex);
+            SceneManager.instance.focussedHouse.StopAudio();
         }
     }
     
