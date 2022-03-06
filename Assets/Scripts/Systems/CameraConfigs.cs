@@ -7,7 +7,8 @@ public enum CameraMode
     Overworld, 
     Exterior, 
     Interior,
-    Phonebox
+    Phonebox, 
+    YellowPages
 };
 
 public class CameraConfigs : MonoBehaviour
@@ -102,6 +103,14 @@ public class CameraConfigs : MonoBehaviour
     public void SetPhoneboxCamera()
     {
         m_phoneboxCameraConfig.Apply();
+        currentMode = CameraMode.Phonebox;
+    }
+
+    public void SetYellowPagesCamera()
+    {
+        m_yellowPagesCameraConfig.Apply();
+        currentMode = CameraMode.YellowPages;
+
     }
 
     void ClickCallback()
@@ -119,6 +128,49 @@ public class CameraConfigs : MonoBehaviour
                 {
                     SetInteriorCamera();
                     Debug.Log("Component found!");
+                }
+            }
+        }
+        else if(currentMode == CameraMode.Phonebox)
+        {
+            RaycastHit[] hits;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 1000.0f);
+            Debug.Log($"Num Hits: {hits.Length}");
+            for (int i = 0; i < hits.Length; i++)
+            {
+                var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                if (clickable != null)
+                {
+                    //SetInteriorCamera();
+                    Debug.Log("Phonebook found!");
+                    SetYellowPagesCamera();
+                }
+            }
+        }
+        else if(currentMode == CameraMode.YellowPages)
+        {
+            RaycastHit[] hits;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 1000.0f);
+            Debug.Log($"Num Hits: {hits.Length}");
+            // if hits.Length == 0, return...
+            if (hits.Length == 0)
+            {
+                SetPhoneboxCamera();
+            }
+            else
+            {
+
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                    if (clickable != null)
+                    {
+                        //SetInteriorCamera();
+                        Debug.Log("Phonebook found!");
+                        SetYellowPagesCamera();
+                    }
                 }
             }
         }

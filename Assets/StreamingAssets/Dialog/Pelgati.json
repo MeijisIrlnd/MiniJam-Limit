@@ -1,0 +1,11 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": false, 
+        "dialog": [
+        ]
+    },
+    "day": { 
+        "has_dialog": false
+    }
+}
