@@ -109,6 +109,7 @@ public class CameraConfigs : MonoBehaviour
 
     public void SetPhoneboxCamera()
     {
+        Cursor.visible = true;
         ShowUI?.Invoke();
         m_phoneboxCameraConfig.Apply();
         currentMode = CameraMode.Phonebox;

@@ -175,6 +175,7 @@ public class SceneManager : MonoBehaviour
                 }
                 else if(m_inPhonebox && m_cameraSetToPhonebox)
                 {
+                    Cursor.visible = false;
                     Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
                     m_cameraSetToPhonebox = false;
                 }
