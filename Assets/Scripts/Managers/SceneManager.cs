@@ -42,6 +42,9 @@ public class SceneManager : MonoBehaviour
     public static event Action<CameraMode> OnHouseCameraChanged;
     public static event Action OnClick;
 
+    private bool m_inPhonebox = false;
+    private bool m_cameraSetToPhonebox = false;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -53,6 +56,25 @@ public class SceneManager : MonoBehaviour
             {"Bramwell", 2 },
             {"Cooper", 3 }
         };
+
+        PhoneboxBoundaryDetector.OnPhoneboxTriggerEnter += PhoneboxEntered;
+        PhoneboxBoundaryDetector.OnPhoneboxTriggerExit += PhoneboxExited;
+    }
+
+    private void OnDestroy()
+    {
+        PhoneboxBoundaryDetector.OnPhoneboxTriggerEnter -= PhoneboxEntered;
+        PhoneboxBoundaryDetector.OnPhoneboxTriggerExit -= PhoneboxExited;
+    }
+    private void PhoneboxEntered()
+    {
+        m_inPhonebox = true;
+        Debug.Log("Phonebox entered");
+    }
+
+    private void PhoneboxExited()
+    {
+        m_inPhonebox = false;
     }
 
     public void ShowDialog(List<string> dialog)
@@ -129,7 +151,7 @@ public class SceneManager : MonoBehaviour
         {
             SwitchTimeOfDay();
         }
-        if(focussedHouse != null && CameraConfigs.currentMode != CameraMode.Interior)
+        if((focussedHouse != null || m_inPhonebox) && CameraConfigs.currentMode != CameraMode.Interior)
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
@@ -138,10 +160,21 @@ public class SceneManager : MonoBehaviour
                     ShowOverworld();
                     OnHouseCameraChanged?.Invoke(CameraConfigs.currentMode);
                 }
-                else
+                else if(CameraConfigs.currentMode == CameraMode.Overworld && !m_inPhonebox)
                 {
                     ShowHouseExterior(focussedHouse.houseName);
                     OnHouseCameraChanged?.Invoke(CameraConfigs.currentMode);
+                }
+                else if(m_inPhonebox && !m_cameraSetToPhonebox)
+                {
+                    // Transform camera to phonebox
+                    Camera.main.GetComponent<CameraConfigs>().SetPhoneboxCamera();
+                    m_cameraSetToPhonebox = true;
+                }
+                else if(m_inPhonebox && m_cameraSetToPhonebox)
+                {
+                    Camera.main.GetComponent<CameraConfigs>().SetOverworldCamera();
+                    m_cameraSetToPhonebox = false;
                 }
             }
         }

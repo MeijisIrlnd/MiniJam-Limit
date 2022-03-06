@@ -6,13 +6,14 @@ using UnityEngine;
 public class PhoneboxBoundaryDetector : MonoBehaviour
 {
     public static event Action OnPhoneboxTriggerEnter;
-    public static event Action OnPhoneboxTriggerExit;
-
+    public static event Action OnPhoneboxTriggerExit;    
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<PlayerOverworldController>() != null)
         {
             OnPhoneboxTriggerEnter?.Invoke();
+            
         }
     }
 

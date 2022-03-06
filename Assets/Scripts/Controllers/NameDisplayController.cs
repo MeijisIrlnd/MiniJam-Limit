@@ -42,7 +42,7 @@ public class NameDisplayController : MonoBehaviour
 
     private void OnPhoneboxTriggerEnter()
     {
-        textComponent.text = "phonebox";
+        textComponent.text = "old phonebooth";
         textComponent.gameObject.SetActive(true);
         interactionText.text = "press E to make a call";
         interactionText.gameObject.SetActive(true);
