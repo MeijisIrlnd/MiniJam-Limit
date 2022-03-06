@@ -6,7 +6,8 @@ public enum CameraMode
 {
     Overworld, 
     Exterior, 
-    Interior
+    Interior,
+    Phonebox
 };
 
 public class CameraConfigs : MonoBehaviour
@@ -17,6 +18,7 @@ public class CameraConfigs : MonoBehaviour
     private List<CameraConfig> m_houseInteriorConfigs;
     private readonly Vector3 m_exteriorCameraDelta = new Vector3(-7.13f, 0.1f, -0.06f);
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
+    private CameraConfig m_phoneboxCameraConfig = new CameraConfig(new Vector3(0, -90, 0), new Vector3(-5.257f, 1.06f, 2.23f), false);
     public static CameraMode currentMode = CameraMode.Overworld;
     private int m_currentHouseIndex = 0;
 
@@ -94,6 +96,11 @@ public class CameraConfigs : MonoBehaviour
                 audioSource.Play();
             }
         }
+    }
+
+    public void SetPhoneboxCamera()
+    {
+        m_phoneboxCameraConfig.Apply();
     }
 
     void ClickCallback()
