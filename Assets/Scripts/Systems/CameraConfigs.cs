@@ -7,7 +7,8 @@ public enum CameraMode
     Overworld, 
     Exterior, 
     Interior,
-    Phonebox
+    Phonebox, 
+    YellowPages
 };
 
 public class CameraConfigs : MonoBehaviour
@@ -19,6 +20,7 @@ public class CameraConfigs : MonoBehaviour
     private readonly Vector3 m_exteriorCameraDelta = new Vector3(-7.13f, 0.1f, -0.06f);
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
     private CameraConfig m_phoneboxCameraConfig = new CameraConfig(new Vector3(0, -90, 0), new Vector3(-5.257f, 1.06f, 2.23f), false);
+    private CameraConfig m_yellowPagesCameraConfig = new CameraConfig(new Vector3(0, -90, 0), new Vector3(-4.49f, 17.68f, 2.2f), false);
     public static CameraMode currentMode = CameraMode.Overworld;
     private int m_currentHouseIndex = 0;
 
@@ -101,6 +103,14 @@ public class CameraConfigs : MonoBehaviour
     public void SetPhoneboxCamera()
     {
         m_phoneboxCameraConfig.Apply();
+        currentMode = CameraMode.Phonebox;
+    }
+
+    public void SetYellowPagesCamera()
+    {
+        m_yellowPagesCameraConfig.Apply();
+        currentMode = CameraMode.YellowPages;
+
     }
 
     void ClickCallback()
@@ -121,6 +131,51 @@ public class CameraConfigs : MonoBehaviour
                 }
             }
         }
+        else if(currentMode == CameraMode.Phonebox)
+        {
+            RaycastHit[] hits;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 1000.0f);
+            Debug.Log($"Num Hits: {hits.Length}");
+            for (int i = 0; i < hits.Length; i++)
+            {
+                var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                if (clickable != null)
+                {
+                    //SetInteriorCamera();
+                    Debug.Log("Phonebook found!");
+                    SetYellowPagesCamera();
+                }
+            }
+        }
+        else if(currentMode == CameraMode.YellowPages)
+        {
+            RaycastHit[] hits;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 1000.0f);
+            Debug.Log($"Num Hits: {hits.Length}");
+            // if hits.Length == 0, return...
+            if (hits.Length == 0)
+            {
+                SetPhoneboxCamera();
+            }
+            else
+            {
+
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                    if (clickable != null)
+                    {
+                        //SetInteriorCamera();
+                        Debug.Log("Phonebook found!");
+                        SetYellowPagesCamera();
+                    }
+                }
+            }
+        }
+
+        // Raycast for phonebook, and translate camera to Yellow Pages...
         else if (currentMode == CameraMode.Interior)
         {
             if (SceneManager.instance.GetIsDialogShowing()) { SceneManager.instance.CancelDialog(); }

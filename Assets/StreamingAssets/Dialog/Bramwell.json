@@ -13,6 +13,21 @@
         ]
     },
     "day": { 
-        "has_dialog": false
+        "has_dialog": true, 
+        "dialog": [ 
+            "VRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR", 
+            "[you hear sounds coming from below the house]",
+            "BANGBANGBANGBANGBANGBANGARANGMANGUANGMANGMANGYANG"
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "Mr. Bramwell here. I am dreadfully sorry we could not get to the phone. Please leave a message and await further instructions.",
+            "[beep]", 
+            ".......",
+            "[click]"
+        ]
     }
 }

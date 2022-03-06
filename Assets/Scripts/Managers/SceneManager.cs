@@ -54,7 +54,8 @@ public class SceneManager : MonoBehaviour
             {"Berwyn", 0 },
             {"Klebble", 1 },
             {"Bramwell", 2 },
-            {"Cooper", 3 }
+            {"Cooper", 3 },
+            {"Pelgati", 4 }
         };
 
         PhoneboxBoundaryDetector.OnPhoneboxTriggerEnter += PhoneboxEntered;

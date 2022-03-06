@@ -35,7 +35,7 @@ public class HouseData : MonoBehaviour
     {
         if (HasDialogForTime(timeOfDay))
         {
-            return timeOfDay == TimeOfDay.Day ? null : m_householdJson.night.dialog;
+            return timeOfDay == TimeOfDay.Day ? m_householdJson.day.dialog : m_householdJson.night.dialog;
         }
         else
         {
