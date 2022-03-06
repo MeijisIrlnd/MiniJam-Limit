@@ -17,6 +17,25 @@
         ]
     },
     "day": { 
-        "has_dialog": false
+        "has_dialog": true,
+        "dialog": [ 
+            "Take a look at yourself Belinda! You can't even get yourself out of that pickle you've found yourself in on the ground", 
+            "hungnnnnngnngngngngnngn untoward feelings mhshfffhsfhshfsf",
+            "${VGhpcyBmb29kIHRhc3RlcyBmdW5ueSBtdW1teQ==}", 
+            "You're talking gibberish Belinda! I was with the boys at jousting practice all night long.",
+            "Hold on... Brent is outside.. We'll finish discussing this after my chivalry classes tomorrow evening."
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "woooaoaoaooaoao?",
+            "......", 
+            "auauuauauauaio!", 
+            "........", 
+            "${aXQncyBjb2xkIGhlcmUgd2l0aG91dCB5b3UgbXVtbXk=}",
+            "[click]"
+        ]
     }
 }
