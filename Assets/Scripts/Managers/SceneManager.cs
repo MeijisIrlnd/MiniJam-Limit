@@ -39,7 +39,7 @@ public class SceneManager : MonoBehaviour
 
     private bool m_currentlySwitchingTimeOfDay = false;
     public static event Action<TimeOfDay> OnTimeOfDaySwitched;
-    public static event Action<HouseData> OnHouseCameraChanged;
+    public static event Action<CameraMode> OnHouseCameraChanged;
     public static event Action OnClick;
 
     private void Awake()
@@ -136,10 +136,12 @@ public class SceneManager : MonoBehaviour
                 if(CameraConfigs.currentMode == CameraMode.Exterior)
                 {
                     ShowOverworld();
+                    OnHouseCameraChanged?.Invoke(CameraConfigs.currentMode);
                 }
                 else
                 {
                     ShowHouseExterior(focussedHouse.houseName);
+                    OnHouseCameraChanged?.Invoke(CameraConfigs.currentMode);
                 }
             }
         }
