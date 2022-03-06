@@ -42,6 +42,7 @@ public class SceneManager : MonoBehaviour
     public static event Action<CameraMode> OnHouseCameraChanged;
     public static event Action OnClick;
 
+
     private bool m_inPhonebox = false;
     private bool m_cameraSetToPhonebox = false;
 
@@ -148,7 +149,7 @@ public class SceneManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !m_currentlySwitchingTimeOfDay)
+        if (Input.GetKeyDown(KeyCode.Space) && !m_currentlySwitchingTimeOfDay && (CameraConfigs.currentMode == CameraMode.Exterior || CameraConfigs.currentMode == CameraMode.Overworld))
         {
             SwitchTimeOfDay();
         }

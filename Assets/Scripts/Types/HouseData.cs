@@ -43,6 +43,17 @@ public class HouseData : MonoBehaviour
         }
     }
 
+    public List<string> GetPhoneDialog()
+    {
+        if(m_householdJson.phone.has_dialog)
+        {
+            return m_householdJson.phone.dialog;
+        }
+        else
+        {
+            return null;
+        }
+    }
     public void StopAudio()
     {
         foreach (var audioSource in audioSourcesDay) { if (audioSource.isPlaying) { audioSource.Stop(); } }
