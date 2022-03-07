@@ -10,6 +10,8 @@ public enum DialogType
 
 public class YellowPagesEntry : MonoBehaviour
 {
+    [SerializeField] public bool ignore = false;
+    
     [SerializeField] public DialogType dialogType;
     [SerializeField] public HouseData linkedHouseData;
 }

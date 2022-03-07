@@ -1,0 +1,24 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": true, 
+        "dialog": [     
+
+        ]
+    },
+    "day": { 
+        "has_dialog": false, 
+        "dialog": [ 
+        ]
+    },
+    "phone": { 
+        "has_dialog": false,
+        "dialog": [ 
+            "WE KNOW YOU'RE OUT THERE..",
+            ".....",
+            "WE'VE SEEN YOU LOOKING THROUGH OUR WINDOWS",
+            ".....", 
+            "STAY AWAY FROM OUR FAMILIES"
+        ]
+    }
+}

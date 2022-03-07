@@ -8,12 +8,27 @@
     "day": { 
         "has_dialog": false, 
         "dialog": [ 
+
         ]
     },
     "phone": { 
         "has_dialog": true, 
         "dialog": [ 
-            "TODO: FINAL DIALOG"
+            "[click]",
+            "911, what's your emergency?",
+            "police please.",
+            "......",
+            "Dunmansbury Police Department, how can I assist you?",
+            "I'm an officer of the law requesting urgent backup for an arrest. I am outside of the perpetrators house",
+            "Mam, requests for backup are handled via the police radio system, can I ask your badge ID?",
+            "I've misplaced my badge and have been using my own vehicle.",
+            "What case is this in relation to?", 
+            "The murder of the Pelgati family", 
+            "Mam that case was closed three years ago, and the suspect was sentenced to life in prison. Can I ask you your name?",
+            "....",
+            "Mam?",
+            ".....",
+            "[click]" 
         ]
     }
 }

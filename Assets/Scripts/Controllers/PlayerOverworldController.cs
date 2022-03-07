@@ -21,26 +21,31 @@ public class PlayerOverworldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CameraConfigs.currentMode == CameraMode.Overworld)
+        if (!SceneManager.m_playingIntro)
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
-            if(h == 0 && v == 0) { 
+            if (CameraConfigs.currentMode == CameraMode.Overworld)
+            {
+                float h = Input.GetAxisRaw("Horizontal");
+                float v = Input.GetAxisRaw("Vertical");
+                if (h == 0 && v == 0)
+                {
+                    m_isCarMoving = false;
+                    if (carAudioSource.isPlaying) { carAudioSource.Stop(); }
+                }
+                else
+                {
+                    m_isCarMoving = true;
+                    if (!carAudioSource.isPlaying) { carAudioSource.Play(); }
+                }
+                gameObject.transform.Rotate(new Vector3(0, h * 2, 0));
+                var lookVector = gameObject.transform.forward;
+                transform.position += v * lookVector * Time.deltaTime * movementSpeed;
+            }
+            else
+            {
                 m_isCarMoving = false;
-                if(carAudioSource.isPlaying) { carAudioSource.Stop(); }
+                if (carAudioSource.isPlaying) { carAudioSource.Stop(); }
             }
-            else { 
-                m_isCarMoving = true;
-                if(!carAudioSource.isPlaying) {  carAudioSource.Play(); }
-            }
-            gameObject.transform.Rotate(new Vector3(0, h * 2, 0));
-            var lookVector = gameObject.transform.forward;
-            transform.position += v * lookVector * Time.deltaTime * movementSpeed;
-        }
-        else
-        {
-            m_isCarMoving = false;
-            if(carAudioSource.isPlaying) { carAudioSource.Stop(); }
         }
     }
 
