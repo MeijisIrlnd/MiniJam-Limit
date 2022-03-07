@@ -3,14 +3,32 @@
     { 
         "has_dialog": true, 
         "dialog": [
-            "Benjamin! Daddy said not to touch the breadknife", 
-            "But I want to be just like Daddy. I want to shave like he does!", 
-            "You don't have any hair Benjamin!", 
-            "Mummy and Daddy are away and I #~|~W I L L|#]Z{s[HE WATCHES]}  remove the hair", 
-            "[Incoherent Screaming]"
+            "benjamin! daddy said not to touch the breadknife.", 
+            "but i want to be just like daddy. i want to shave like he does!", 
+            "but you don't have any hair benjamin!", 
+            "mummy and daddy are away and i ${TXVtbXkgY2FuIHlvdSBoZWFyIHVzPyA=} remove the hair.", 
+            "[incoherent screaming]"
         ]
     },
     "day": { 
-        "has_dialog": false
+        "has_dialog": true, 
+        "dialog": [ 
+            "how dare they judge us for our parenting!",
+            "mrs. cooper spends her time whacked out on that prescription filth she gets from those geriatrics up the street!", 
+            "i heard those pills can kill you if you take enough of them.",
+            "how awful. at least our vices are lega-",
+            "BENJAMIN! I TOLD YOU NOT TO TOUCH THE CARBON STEEL KNIVES!", 
+            "THEY'RE EXPENSIVE, DADDY SPENT YOUR ENTIRE SCHOOL UNIFORM FUND ON THEM!"
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "you have reached the berwyn family. please leave a message and we will return your call as soon as possible.",
+            "[beep]", 
+            ".......",
+            "[click]"
+        ]
     }
 }

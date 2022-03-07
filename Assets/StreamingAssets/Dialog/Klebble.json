@@ -3,13 +3,35 @@
     { 
         "has_dialog": true, 
         "dialog": [
-            "I pray we get a decent night's sleep tonight... It's the same time every gosh darn night.",
-            "Boris Bleeding Bramwell!", 
-            "Why does he have to use the high powered industrial grade band saw at 3am every night!", 
-            "Does he think our ears are filled?"
+            "i pray we get a decent sleep tonight... it's the same time every gosh darn night.",
+            "boris bleeding bramwell!", 
+            "why must he use that high powered industrial grade band saw at such ungodly hours!", 
+            "does he think that our ears are filled?"
         ]
     },
     "day": { 
-        "has_dialog": false
+        "has_dialog": true,
+        "dialog": [ 
+            "unbelievable! they had to go and ruin it for everyone!",
+            "christopher, it's been three years, get over it!", 
+            "well, if it wasn't for her, we'd be retired by now, sipping woo-woos in belgium.",
+            "it's not the end of the world christopher, you still have customers!",
+            "yes but my supply chain has been severly limited! I can't keep wearing casts on every available limb, can I?",
+            "that's true. you look like the michelin man christopher.",
+            "and another thing, having to stare at her house every night is insulting.", 
+            "you know, i swear i heard something moving around in there the other night..."
+        ]
+    }, 
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "mr. klebble speaking, who's calling?", 
+            "......", 
+            "i don't take cold calls, please remove my phone number from your system!", 
+            "......", 
+            "hello?",
+            "[click]"
+        ]
     }
 }

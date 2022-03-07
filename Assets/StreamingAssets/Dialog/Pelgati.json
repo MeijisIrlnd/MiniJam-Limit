@@ -1,0 +1,23 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": true, 
+        "dialog": [
+            "[it doesn't look like anyone is home...]"
+        ]
+    },
+    "day": { 
+        "has_dialog": true, 
+        "dialog": [
+            "[it doesn't look like anyone is home...]"
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "we are sorry. we are unable to connect your call.",
+            "[click]"
+        ]
+    }
+}

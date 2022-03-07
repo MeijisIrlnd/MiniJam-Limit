@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +7,27 @@ public enum CameraMode
 {
     Overworld, 
     Exterior, 
-    Interior
+    Interior,
+    Phonebox, 
+    YellowPages
 };
 
 public class CameraConfigs : MonoBehaviour
 {
+    [SerializeField] HouseData endingDialogData;
     [SerializeField] List<GameObject> houses;
+    [SerializeField] DialogHandler dialogHandler;
+    public static event Action HideUI;
+    public static event Action ShowUI;
+    public static event Action TriggerEnding;
+
     private CameraConfig m_overworldConfig;
     private List<CameraConfig> m_houseExteriorConfigs;
     private List<CameraConfig> m_houseInteriorConfigs;
     private readonly Vector3 m_exteriorCameraDelta = new Vector3(-7.13f, 0.1f, -0.06f);
     private readonly Vector3 m_interiorCameraDelta = new Vector3(-2.34f, 1.41f, -2.15f);
+    private CameraConfig m_phoneboxCameraConfig = new CameraConfig(new Vector3(0, -90, 0), new Vector3(-5.257f, 1.06f, 2.23f), false);
+    private CameraConfig m_yellowPagesCameraConfig = new CameraConfig(new Vector3(0, -90, 0), new Vector3(-4.49f, 17.68f, 2.2f), false);
     public static CameraMode currentMode = CameraMode.Overworld;
     private int m_currentHouseIndex = 0;
 
@@ -66,13 +77,15 @@ public class CameraConfigs : MonoBehaviour
 
     public void SetOverworldCamera() { currentMode = CameraMode.Overworld; m_overworldConfig.Apply(); }
 
-    public void SetElevationCamera(int houseNumber) { 
+    public void SetElevationCamera(int houseNumber) {
+        ShowUI?.Invoke();
         currentMode = CameraMode.Exterior;
         m_currentHouseIndex = houseNumber;
         m_houseExteriorConfigs[houseNumber].Apply(); 
     }
 
-    public void SetInteriorCamera() { 
+    public void SetInteriorCamera() {
+        HideUI?.Invoke();
         currentMode = CameraMode.Interior;
         m_houseInteriorConfigs[m_currentHouseIndex].Apply();
         HouseData currentHouseData = houses[m_currentHouseIndex].GetComponent<HouseData>();
@@ -96,29 +109,109 @@ public class CameraConfigs : MonoBehaviour
         }
     }
 
+    public void SetPhoneboxCamera()
+    {
+        Cursor.visible = true;
+        ShowUI?.Invoke();
+        m_phoneboxCameraConfig.Apply();
+        currentMode = CameraMode.Phonebox;
+        if (SceneManager.justPlayedPoliceCall)
+        {
+            HideUI?.Invoke();
+            dialogHandler.m_shouldCancel = false;
+            SceneManager.shouldPlayFinalDialog = true;
+            dialogHandler.ShowEndingDialog(endingDialogData.GetDialogForTime(TimeOfDay.Night));
+            TriggerEnding?.Invoke();
+        }
+    }
+
+    public void SetYellowPagesCamera()
+    {
+        HideUI?.Invoke();
+        m_yellowPagesCameraConfig.Apply();
+        currentMode = CameraMode.YellowPages;
+
+    }
+
     void ClickCallback()
     {
-        if (currentMode == CameraMode.Exterior)
-        {
-            RaycastHit[] hits;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            hits = Physics.RaycastAll(ray, 1000.0f);
-            Debug.Log($"Num Hits: {hits.Length}");
-            for (int i = 0; i < hits.Length; i++)
+        if (!SceneManager.inEndingDialog && !SceneManager.shouldPlayFinalDialog && !SceneManager.m_playingIntro) { 
+            if (currentMode == CameraMode.Exterior)
             {
-                var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
-                if (clickable != null)
+                RaycastHit[] hits;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                hits = Physics.RaycastAll(ray, 1000.0f);
+                Debug.Log($"Num Hits: {hits.Length}");
+                for (int i = 0; i < hits.Length; i++)
                 {
-                    SetInteriorCamera();
-                    Debug.Log("Component found!");
+                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                    if (clickable != null)
+                    {
+                        SetInteriorCamera();
+                        Debug.Log("Component found!");
+                    }
                 }
             }
-        }
-        else if (currentMode == CameraMode.Interior)
-        {
-            if (SceneManager.instance.GetIsDialogShowing()) { SceneManager.instance.CancelDialog(); }
-            SetElevationCamera(m_currentHouseIndex);
-            SceneManager.instance.focussedHouse.StopAudio();
+            else if (currentMode == CameraMode.Phonebox)
+            {
+                RaycastHit[] hits;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                hits = Physics.RaycastAll(ray, 1000.0f);
+                Debug.Log($"Num Hits: {hits.Length}");
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    var clickable = hits[i].transform.GetComponentInChildren<Clickable>();
+                    if (clickable != null)
+                    {
+                        //SetInteriorCamera();
+                        Debug.Log("Phonebook found!");
+                        SetYellowPagesCamera();
+                    }
+                }
+            }
+            else if (currentMode == CameraMode.YellowPages)
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                bool didHit = Physics.Raycast(ray, out hit, 100.0f);
+                if (!didHit)
+                {
+                    dialogHandler.Cancel();
+                    SetPhoneboxCamera();
+
+
+                }
+                else
+                {
+                    Debug.Log(hit.transform.name);
+                    var entry = hit.transform.GetComponentInChildren<YellowPagesEntry>();
+                    if (entry != null)
+                    {
+                        if (!entry.ignore)
+                        {
+                            // If this is the ending dialog, start the show ending dialog function. 
+                            // Functionally this is just uncancellable, and sets a bool when it starts. 
+                            // This bool needs to be checked once you leave the yellow pages, and trigger the final bit of dialog. 
+                            // Then the game ends. 
+                            if (entry.dialogType == DialogType.Police)
+                            {
+                                SceneManager.inEndingDialog = true;
+                                dialogHandler.ShowPoliceDialog(entry.linkedHouseData.GetPhoneDialog());
+                            }
+                            dialogHandler.Show(entry.linkedHouseData.GetPhoneDialog());
+                            
+                        }
+                    }
+                }
+            }
+
+            // Raycast for phonebook, and translate camera to Yellow Pages...
+            else if (currentMode == CameraMode.Interior)
+            {
+                if (SceneManager.instance.GetIsDialogShowing()) { SceneManager.instance.CancelDialog(); }
+                SetElevationCamera(m_currentHouseIndex);
+                SceneManager.instance.focussedHouse.StopAudio();
+            }
         }
     }
     

@@ -3,20 +3,39 @@
     { 
         "has_dialog": true, 
         "dialog": [
-            "Ya beb, it's totally far out.. I love that OPM record.",
+            "ya beb, it's totally far out.. i love that OPM record.",
             "...",
-            "Ya beb, it's good. the kids in bed beb, and I just snagged the papa's bourbon",
+            "ya beb, it's good. the kids are in bed beb, and I just snagged the papa's bourbon.",
             "...",
-            "Oh ya Benby, it was totally freaked up. I've never seen so many chainsaws...", 
-            "And beb... the guys not even a tree surgeon",
+            "oh ya benby, it was totally freaked up. I've never seen so many chainsaws...", 
+            "and beb... the guys not even a tree surgeon.",
             "...", 
-            "ya guys payin me 30 bucks an hour just to keep an eye on those scrawny little twiglets.",
-            "ha ha... Sucker..",
+            "ya, guys payin me 30 bucks an hour just to keep an eye on those scrawny little twiglets.",
+            "ha ha... sucker...",
             "...",
-            "When the revolution comes he'll be first against the wall"
+            "when the revolution comes he'll be first against the wall."
         ]
     },
     "day": { 
-        "has_dialog": false
+        "has_dialog": true,
+        "dialog": [ 
+            "take a look at yourself belinda! you can't even get yourself out of that pickle you've found yourself in on the ground.", 
+            "hungnnnnngnngngngngnngn untoward feelings mhshfffhsfhshfsf",
+            "${VGhpcyBmb29kIHRhc3RlcyBmdW5ueSBtdW1teQ==}", 
+            "you're talking gibberish belinda! i was with the boys at jousting practice all night long.",
+            "hold on... i hear brent outside.. we'll finish discussing this after my chivalry class tomorrow evening."
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "woooaoaoaooaoao?",
+            "......", 
+            "auauuauauauaio!", 
+            "........", 
+            "${aXQncyBjb2xkIGhlcmUgd2l0aG91dCB5b3UgbXVtbXk=}",
+            "[click]"
+        ]
     }
 }

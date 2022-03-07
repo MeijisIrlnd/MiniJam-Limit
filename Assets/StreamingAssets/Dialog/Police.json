@@ -1,0 +1,49 @@
+{ 
+    "night": 
+    { 
+        "has_dialog": false, 
+        "dialog": [
+            "[click]",
+            "911, what's your emergency?",
+            "police please.",
+            "......",
+            "dunmansbury police department, how may i assist you?",
+            "i'm an officer of the law requesting urgent backup for an arrest. i am outside of the perpetrator's house",
+            "mam, requests for backup are handled via the police radio system, can I ask your badge id?",
+            "i need backup now.",
+            "what case is this in relation to?", 
+            "the murder of the pelgati family", 
+            "mam that case was closed three years ago, and the suspect was sentenced to life in prison. can I ask you your name?",
+            "....",
+            "mam?",
+            ".....",
+            "[click]" 
+        ]
+    },
+    "day": { 
+        "has_dialog": false, 
+        "dialog": [ 
+
+        ]
+    },
+    "phone": { 
+        "has_dialog": true, 
+        "dialog": [ 
+            "[click]",
+            "911, what's your emergency?",
+            "police please.",
+            "......",
+            "dunmansbury police department, how may i assist you?",
+            "i'm an officer of the law requesting urgent backup for an arrest. i am outside of the perpetrator's house",
+            "mam, requests for backup are handled via the police radio system, can I ask your badge id?",
+            "i need backup now.",
+            "what case is this in relation to?", 
+            "the murder of the pelgati family", 
+            "mam that case was closed three years ago, and the suspect was sentenced to life in prison. can I ask you your name?",
+            "....",
+            "mam?",
+            ".....",
+            "[click]" 
+        ]
+    }
+}
