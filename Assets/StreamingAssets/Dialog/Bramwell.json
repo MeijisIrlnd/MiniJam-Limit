@@ -3,20 +3,20 @@
     { 
         "has_dialog": true, 
         "dialog": [
-            "Hello Bevny. I hope those rascals at the Cooper household are not causing you discomfort.", 
-            "I do wish you wouldn't go there, as your mother has untoward feelings towards Mr Cooper.", 
-            "Sorry, I should not let my emotions out. You should keep the lion within his cage.", 
-            "Hopefully mother will be home early enough to pick you up this time.",
-            "We are even unsafe in these gilded streets, with [THE INDIVIDUAL] roaming around...",
-            "Just look at the Pelagati house....", 
-            "Anyway, Love you Bevny. Call me soon, it's Dad"
+            "hello bevny. i hope those rascals at the cooper household are not causing you discomfort.", 
+            "i do wish you wouldn't go there, as your mother has untoward feelings towards mr cooper.", 
+            "sorry, i should not let my emotions out. always keep the lion within his cage.", 
+            "hopefully mother will be home early enough to pick you up this time.",
+            "We are even unsafe in these streets, with [THE INDIVIDUAL] roaming around...",
+            "just look at the pelagati house....", 
+            "anyway, love you bevny. call me soon, it's dad."
         ]
     },
     "day": { 
         "has_dialog": true, 
         "dialog": [ 
             "VRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR", 
-            "[you hear sounds coming from below the house]",
+            "[you hear loud noises coming from below the house.]",
             "BANGBANGBANGBANGBANGBANGARANGMANGUANGMANGMANGYANG"
         ]
     },
@@ -24,7 +24,7 @@
         "has_dialog": true, 
         "dialog": [ 
             "[click]",
-            "Mr. Bramwell here. I am dreadfully sorry we could not get to the phone. Please leave a message and await further instructions.",
+            "mr. bramwell here. i am dreadfully sorry we could not get to the phone. please leave a message and await further instructions.",
             "[beep]", 
             ".......",
             "[click]"

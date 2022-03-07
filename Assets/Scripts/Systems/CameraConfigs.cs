@@ -120,8 +120,7 @@ public class CameraConfigs : MonoBehaviour
             HideUI?.Invoke();
             dialogHandler.m_shouldCancel = false;
             SceneManager.shouldPlayFinalDialog = true;
-            var dialog = endingDialogData.GetDialogForTime(TimeOfDay.Night);
-            dialogHandler.Show(endingDialogData.GetDialogForTime(TimeOfDay.Night));
+            dialogHandler.ShowEndingDialog(endingDialogData.GetDialogForTime(TimeOfDay.Night));
             TriggerEnding?.Invoke();
         }
     }

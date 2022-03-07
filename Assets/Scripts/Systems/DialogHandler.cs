@@ -31,6 +31,10 @@ public class DialogHandler : MonoBehaviour
         StartCoroutine(ShowPoliceDialogAsync(dialog));
     }
 
+    public void ShowEndingDialog(List<string> dialog)
+    {
+        StartCoroutine (ShowEndingDialogAsync(dialog));
+    }
 
     public void Cancel() { m_shouldCancel = true; }
     public void Clear()
@@ -173,5 +177,49 @@ public class DialogHandler : MonoBehaviour
             yield return null;
         }
         else { yield return null; }
+    }
+
+    private IEnumerator ShowEndingDialogAsync(List<string> dialog)
+    {
+        if (!m_isShowing)
+        {
+            m_isShowing = true;
+            var startColour = background.color;
+            var endColour = new Color(background.color.r, background.color.g, background.color.b, 0.25f);
+            float timer = 0;
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeDuration;
+                background.color = Color.Lerp(startColour, endColour, t);
+                yield return new WaitForEndOfFrame();
+            }
+
+            foreach (string line in dialog)
+            {
+                Clear();
+                foreach (char c in line)
+                {
+                    textBox.text = $"{textBox.text}{c}";
+                    yield return new WaitForSeconds(timePerCharacter);
+                }
+                if (m_shouldCancel) break;
+                yield return new WaitForSeconds(0.5f);
+            }
+            Clear();
+            timer = 0;
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeDuration;
+                background.color = Color.Lerp(endColour, startColour, t);
+                yield return new WaitForEndOfFrame();
+            }
+            m_isShowing = false;
+            yield return null;
+            Application.Quit();
+        }
+        else { yield return null; }
+
     }
 }

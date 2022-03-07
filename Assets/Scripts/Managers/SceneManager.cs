@@ -84,7 +84,8 @@ public class SceneManager : MonoBehaviour
 
     private void Start()
     {
-        // Fade vignette in..    
+        //m_playingIntro = false;
+        // //Fade vignette in..    
         StartCoroutine(FadeVignetteIn());
         dialogHandler.ShowIntroDialog(introData.GetDialogForTime(TimeOfDay.Night));
        

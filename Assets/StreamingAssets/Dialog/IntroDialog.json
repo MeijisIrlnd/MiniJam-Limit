@@ -3,10 +3,10 @@
     { 
         "has_dialog": true, 
         "dialog": [     
-            "Finally",
-            "After three years", 
-            "I've tracked them to this neigbourhood.",
-            "I should look around, and call the boys at the station for backup once I've found them."
+            "finally",
+            "after three years", 
+            "i've tracked them to this neigbourhood.",
+            "i should have a look around for the next day, and call the boys at the station for backup once I've found them."
         ]
     },
     "day": { 

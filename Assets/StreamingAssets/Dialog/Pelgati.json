@@ -3,20 +3,20 @@
     { 
         "has_dialog": true, 
         "dialog": [
-            "[It doesn't look like anyone is home...]"
+            "[it doesn't look like anyone is home...]"
         ]
     },
     "day": { 
         "has_dialog": true, 
         "dialog": [
-            "[It doesn't look like anyone is home...]"
+            "[it doesn't look like anyone is home...]"
         ]
     },
     "phone": { 
         "has_dialog": true, 
         "dialog": [ 
             "[click]",
-            "We are sorry. We are unable to connect your call.",
+            "we are sorry. we are unable to connect your call.",
             "[click]"
         ]
     }
